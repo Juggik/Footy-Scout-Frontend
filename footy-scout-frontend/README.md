@@ -1,4 +1,5 @@
 ## website link - https://footy-scout-frontend.onrender.com
+## run app with - npm run dev
 
 
 
