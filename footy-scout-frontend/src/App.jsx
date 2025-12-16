@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import { useState } from "react";
+import { auth } from "./firebase";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [status, setStatus] = useState("Not signed in");
+
+  async function handleSignIn() {
+    try {
+      setStatus("Opening Google sign-in...");
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      setStatus("Getting ID token...");
+      const idToken = await user.getIdToken();
+
+      setStatus("Sending token to test endpoint...");
+      // Replace this URL with any endpoint you want to inspect in DevTools
+      const testUrl = "https://httpbizzzzzzzzzzzzhsdhdhuheuiehueh8383y8y3eieioheshksdfhkhds8n.org/post";
+
+      // Send token in Authorization header and in JSON body
+      await fetch(testUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({ idToken }),
+        // credentials not needed for cross-origin test; include if sending to your backend
+      });
+
+      setStatus("Request sent. Check Network tab for the request details.");
+    } catch (err) {
+      console.error(err);
+      setStatus("Sign-in or send failed: " + (err.message || err));
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div style={{ padding: 24, fontFamily: "system-ui, sans-serif" }}>
+      <h1>Sign in</h1>
+
+      <button
+        onClick={handleSignIn}
+        style={{ padding: "8px 16px", fontSize: 16, cursor: "pointer" }}
+      >
+        Sign in with Google and send token
+      </button>
+
+      <p style={{ marginTop: 12, color: "#333" }}>{status}</p>
+    </div>
+  );
 }
 
-export default App
+export default App;
