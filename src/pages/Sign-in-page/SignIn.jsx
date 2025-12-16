@@ -17,7 +17,7 @@ export default function SignIn() {
       const idToken = await result.user.getIdToken();
 
       // Development: log token and update status
-      console.log("ID token:", idToken);
+    //   console.log("ID token:", idToken);
       setStatus("Signed in. Token acquired (check console).");
 
       // TODO: send token to your backend when ready

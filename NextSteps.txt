@@ -1,0 +1,4 @@
+- create a nav bar and footer thats consistent across all pages
+-make a footer that is reusable across all pages
+- need to figure out how to have a default style of default navbar thats reusable across all pages
+-need to design the initial home page.
