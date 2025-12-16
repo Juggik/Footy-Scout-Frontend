@@ -18,14 +18,15 @@ function App() {
 
       setStatus("Sending token to test endpoint...");
       // Replace this URL with any endpoint you want to inspect in DevTools
-      const testUrl = "https://httpbizzzzzzzzzzzzhsdhdhuheuiehueh8383y8y3eieioheshksdfhkhds8n.org/post";
+      const testUrl =
+        "https://httpbizzzzzzzzzzzzhsdhdhuheuiehueh8383y8y3eieioheshksdfhkhds8n.org/post";
 
       // Send token in Authorization header and in JSON body
       await fetch(testUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${idToken}`,
+          Authorization: `Bearer ${idToken}`,
         },
         body: JSON.stringify({ idToken }),
         // credentials not needed for cross-origin test; include if sending to your backend
@@ -40,16 +41,15 @@ function App() {
 
   return (
     <div id="root">
-  <div className="card">
-    <h1>Sign in</h1>
-    <button className="btn-signin" onClick={handleSignIn}>
-      <span className="icon">G</span>
-      Sign in with Google
-    </button>
-    <div className="status">{status}</div>
-  </div>
-</div>
-
+      <div className="card">
+        <h1>Sign in</h1>
+        <button className="btn-signin" onClick={handleSignIn}>
+          <span className="icon">G</span>
+          Sign in with Google
+        </button>
+        <div className="status">{status}</div>
+      </div>
+    </div>
   );
 }
 
