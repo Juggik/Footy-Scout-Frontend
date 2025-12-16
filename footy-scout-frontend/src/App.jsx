@@ -1,6 +1,6 @@
 // src/App.jsx
 import { useState } from "react";
-import { auth } from "../../firebase";
+import { auth } from "../firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
       const idToken = await user.getIdToken();
 
       setStatus("Sending token to test endpoint...");
-      // Replace this URL with any endpoint you want to inspect in DevTools
+      // Replace this URL with any endpoint you want to inspect in DevTools.
       const testUrl =
         "https://httpbizzzzzzzzzzzzhsdhdhuheuiehueh8383y8y3eieioheshksdfhkhds8n.org/post";
 
