@@ -1,0 +1,70 @@
+/* src/pages/SignIn/SignIn.module.css */
+
+.card {
+  width: 100%;
+  min-height: 100vh;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* horizontal centering of children */
+  justify-content: center;  /* vertical centering of children */
+  gap: 1.5rem;
+}
+
+/* Title sits near the top of the card but still centered */
+.title {
+  align-self: center;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Button centered in the middle area */
+.btnSignin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(180deg, #646cff, #4b54ff);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(75,84,255,0.16);
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+/* Small icon square inside the button */
+.icon {
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  color: #4b54ff;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* Status text near the bottom but still inside the card */
+.status {
+  color: #cfcfcf;
+  font-size: 0.95rem;
+  text-align: center;
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .card { padding: 1.25rem; gap: 1rem; }
+  .title { font-size: 1.4rem; margin-top: 0.5rem; }
+  .btnSignin { width: 100%; justify-content: center; padding: 0.75rem; }
+}
