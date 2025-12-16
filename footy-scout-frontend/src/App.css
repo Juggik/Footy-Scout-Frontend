@@ -1,42 +1,101 @@
+/* App.css - centered layout and improved sign-in button */
+:root {
+  --max-width: 720px;
+  --accent: #646cff;
+  --accent-strong: #4b54ff;
+  --muted: #888;
+  --bg-card: #ffffff;
+  --card-shadow: 0 6px 18px rgba(20, 20, 40, 0.06);
+  --radius: 12px;
+  --gap: 1.25rem;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
 #root {
-  max-width: 1280px;
+  max-width: var(--max-width);
+  margin: 3rem auto;
+  padding: 2rem;
+  font-family: var(--font-sans);
+  color: #111;
+}
+
+/* Center the whole card and its contents */
+.card {
   margin: 0 auto;
   padding: 2rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap);
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Headline */
+.card h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Status text */
+.status {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Primary sign-in button */
+.btn-signin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1.1rem;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-strong) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(75, 84, 255, 0.18);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.card {
-  padding: 2em;
+/* Button hover / active / focus */
+.btn-signin:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+}
+.btn-signin:active {
+  transform: translateY(0);
+}
+.btn-signin:focus {
+  outline: 3px solid rgba(100,108,255,0.18);
+  outline-offset: 3px;
 }
 
-.read-the-docs {
-  color: #888;
+/* Optional small Google icon square inside button */
+.btn-signin .icon {
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-strong);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* Make layout responsive */
+@media (max-width: 420px) {
+  #root { margin: 1.5rem 1rem; }
+  .card { padding: 1.25rem; gap: 1rem; }
+  .btn-signin { width: 100%; justify-content: center; }
 }

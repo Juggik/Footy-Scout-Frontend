@@ -39,18 +39,17 @@ function App() {
   }
 
   return (
-    <div style={{ padding: 24, fontFamily: "system-ui, sans-serif" }}>
-      <h1>Sign in</h1>
+    <div id="root">
+  <div className="card">
+    <h1>Sign in</h1>
+    <button className="btn-signin" onClick={handleSignIn}>
+      <span className="icon">G</span>
+      Sign in with Google
+    </button>
+    <div className="status">{status}</div>
+  </div>
+</div>
 
-      <button
-        onClick={handleSignIn}
-        style={{ padding: "8px 16px", fontSize: 16, cursor: "pointer" }}
-      >
-        Sign in with Google and send token
-      </button>
-
-      <p style={{ marginTop: 12, color: "#333" }}>{status}</p>
-    </div>
   );
 }
 
