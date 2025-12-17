@@ -1,5 +1,7 @@
--immediate steps: how will that authorised thing be maintained across frontend all pages, so after signin all can use the token?
-second bit is doing the auth across all backend routes set up.
+-immediate steps: sign in working across backend and frontend, need to move the api stuff out of the signin page and
+ into a separate api file for best practice
+- also need some kind of auth/useauth folder ask copilot, it should look like src has folder like pages and in same level services
+folder and inside that folder is auth and useAuth.jsx and handles auth across the site, need to look into this how its handled.
 
 - create a nav bar and footer thats consistent across all pages
 -make a footer that is reusable across all pages
@@ -9,3 +11,4 @@ second bit is doing the auth across all backend routes set up.
 -figure out where apis are fired? there should be another file in sign-in-page for all the apis being fired i think?
 -figure out the MUI stuff
 -eventually ci/cd stuff for auto deployment
+-bug on refreshing sign in page
