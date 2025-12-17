@@ -1,4 +1,11 @@
+-immediate steps: how will that authorised thing be maintained across frontend all pages, so after signin all can use the token?
+second bit is doing the auth across all backend routes set up.
+
 - create a nav bar and footer thats consistent across all pages
 -make a footer that is reusable across all pages
+-need to set up authentication on the backend so thereafter all routes have it.
 - need to figure out how to have a default style of default navbar thats reusable across all pages
 -need to design the initial home page.
+-figure out where apis are fired? there should be another file in sign-in-page for all the apis being fired i think?
+-figure out the MUI stuff
+-eventually ci/cd stuff for auto deployment
