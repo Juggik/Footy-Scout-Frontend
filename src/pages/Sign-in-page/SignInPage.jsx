@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./SignIn.module.css";
 import handleSignIn from "./signInAPI";
 
-export default function SignIn() {
+export default function SignInPage() {
   const [status, setStatus] = useState("Not signed in");
   const [user, setUser] = useState(null);
   const backendUrl =
