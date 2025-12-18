@@ -7,7 +7,7 @@ export default function SignIn() {
   const [status, setStatus] = useState("Not signed in");
   const [user, setUser] = useState(null);
   const backendUrl =
-    process.env.REACT_APP_API_URL || "https://footy-scout-backend.onrender.com";
+    import.meta.env.VITE_API_URL || "https://footy-scout-backend.onrender.com";
 
   return (
     <div className={styles.card}>
