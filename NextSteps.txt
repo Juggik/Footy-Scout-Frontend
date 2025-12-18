@@ -1,10 +1,9 @@
--immediate steps: sign in working across backend and frontend, need to move the api stuff out of the signin page and
- into a separate api file for best practice
-- also need some kind of auth/useauth folder ask copilot, it should look like src has folder like pages and in same level services
+-immediate steps: 
+- also need some kind of auth/useauth context copilot said theres some where people generally set it up to have authentication/user info site wide sort of
+ folder ask copilot, it should look like src has folder like pages and in same level services
 folder and inside that folder is auth and useAuth.jsx and handles auth across the site, need to look into this how its handled.
 -need to do the same for the auth in the backend set up an auth folder responsible for that stuff
 -sort out in the backend where the app instance is spun up, how does it work for all the routes in the other folders whats best practice
--also check it runs locally
 -need to set it up so after sign we use that <link to > to go to the home page of the app 
 
 - create a nav bar and footer thats consistent across all pages
