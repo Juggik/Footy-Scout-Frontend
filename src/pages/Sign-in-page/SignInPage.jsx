@@ -1,7 +1,7 @@
 // src/pages/Sign-in-page/SignIn.jsx
 import { useState } from "react";
 import styles from "./SignIn.module.css";
-import handleSignIn from "./signInAPI";
+import handleSignIn from "./signInAPI.jsx";
 
 export default function SignInPage() {
   const [status, setStatus] = useState("Not signed in");
