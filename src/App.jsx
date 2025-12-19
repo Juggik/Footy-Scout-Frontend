@@ -1,6 +1,6 @@
 // App.jsx - router, layout, and top-level providers
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import SignInPage from "./pages/Sign-in-page/SignInPage.jsx";
+import SignInPage from "./features/Sign-in-page/SignInPage.jsx";
 // import Home from "./pages/Home/Home"; // optional placeholder
 
 export default function App() {
