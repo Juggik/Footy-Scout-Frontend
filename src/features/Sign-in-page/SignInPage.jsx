@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./SignIn.module.css";
-import handleSignIn from "./signInApi";
+import handleSignIn from "./signInAPI";
 import useAuth from "../../auth/useAuth";
 
 export default function SignInPage() {
