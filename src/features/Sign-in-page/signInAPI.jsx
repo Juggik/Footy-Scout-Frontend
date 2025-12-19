@@ -1,49 +1,38 @@
+// src/features/signin/signInApi.js
 import { auth } from "../../../firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import * as authApi from "../../api/authApi";
 
-export default async function handleSignIn({ backendUrl, setStatus, setUser }) {
+/**
+ * Returns { success: boolean, error?: Error }
+ */
+export default async function handleSignIn({ refreshUser, setStatus } = {}) {
   try {
-    setStatus("Opening Google sign-in...");
+    setStatus?.("Opening Google sign-in...");
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
 
-    setStatus("Getting ID token...");
+    setStatus?.("Getting ID token...");
     const idToken = await result.user.getIdToken();
 
-    setStatus("Sending token to server to create session...");
-    const resp = await fetch(`${backendUrl}/session`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include", // allow browser to receive HttpOnly cookie
-      body: JSON.stringify({ idToken }),
-    });
+    setStatus?.("Sending token to server to create session...");
+    await authApi.createSession(idToken);
 
-    if (!resp.ok) {
-      const errText = await resp.text().catch(() => resp.statusText);
-      setStatus("Server session creation failed: " + errText);
-      return;
-    }
+    setStatus?.("Server session created. Fetching profile...");
+    await refreshUser();
 
-    setStatus("Server session created. Fetching profile...");
-
-    // Call /me to get the user profile that the server verifies from the session cookie
-    const meResp = await fetch(`${backendUrl}/me`, {
-      method: "GET",
-      credentials: "include", // send the session cookie
-      headers: { Accept: "application/json" },
-    });
-
-    if (!meResp.ok) {
-      const errText = await meResp.text().catch(() => meResp.statusText);
-      setStatus("Failed to fetch profile: " + errText);
-      return;
-    }
-
-    const profile = await meResp.json();
-    setUser(profile);
-    setStatus(`Signed in as ${profile.email || profile.uid}`);
+    setStatus?.("Signed in");
+    return { success: true };
   } catch (err) {
-    console.error(err);
-    setStatus("Sign-in failed: " + (err?.message || String(err)));
+    // Distinguish user-cancelled popup if you want
+    const message = err?.code === "auth/popup-closed-by-user"
+      ? "Sign-in cancelled"
+      : err?.message || String(err);
+
+    console.error("handleSignIn error:", err);
+    setStatus?.("Sign-in failed: " + message);
+
+    // Let caller decide what to do; return failure info
+    return { success: false, error: err };
   }
 }
