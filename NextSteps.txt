@@ -1,10 +1,20 @@
 -immediate steps: 
  
- -creation of the home page and link to it after sign in (start with nav bar and footer and have that consistent site wide)
--need to set it up so after sign we use that <link to > to go to the home page of the app 
+ -https://www.football-data.org/documentation/quickstart - apis for home page use
+ if you go to bottom theres an example to use the api to get top 10 scorers in a league,
+ you can make a backend route that calls for all the leagues and does the sorting/counting to give a list of players with the top goals across all leagues)
+ then the card should show the player name, goals scored, and the league their in and their team
+ -can then use wiki image api to get the players photos each time.
+ 
+ after home page make the page for when you actually click on a player that shows his stats last games, form etc,
+ -then need to come back to home page and make a working search box that takes you to the pla
 
-- create a nav bar and footer thats consistent across all pages
--make a footer that is reusable across all pages
+
+ -finish player card, style colourscheme etc
+ -identify which scnearios need navigate or which need link to or navlink copilot can tell you which scenario to use which
+
+- create  footer thats consistent across all pages
+
 -need to set up authentication on the backend so thereafter all routes have it.
 - need to figure out how to have a default style of default navbar thats reusable across all pages
 -need to design the initial home page.

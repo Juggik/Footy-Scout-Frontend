@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+import CarouselCard from "../CarouselCard/CarouselCard";
 
 export default function Carousel({ slides = [] }) {
   // internal speed control (seconds per full loop)
-  const ANIMATION_DURATION = 20; // smaller = faster
+  const ANIMATION_DURATION = 30; // smaller = faster
 
   const trackRef = useRef(null);
   const [ready, setReady] = useState(false);
@@ -12,57 +13,64 @@ export default function Carousel({ slides = [] }) {
   const imagesToLoad = slides.length;
   const loadedCountRef = useRef(0);
 
+  // reset counters and ready state when slides change
   useEffect(() => {
-    // if no slides, nothing to do
+    loadedCountRef.current = 0;
+    setReady(false);
+    setTranslatePx(0);
+  }, [slides]);
+
+  // measure function (reusable)
+  const measureTrack = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    const totalWidth = track.scrollWidth;
+    const half = totalWidth / 2;
+    // round to avoid subpixel artifacts; add +1 if you still see a seam
+    setTranslatePx(Math.round(half));
+    setReady(true);
+  };
+
+  // initial measurement attempt (in case images are cached)
+  useEffect(() => {
     if (!slides || slides.length === 0) return;
-
-    // if track already measured and ready, nothing to do
-    if (ready) return;
-
-    // measure function
-    const measure = () => {
-      const track = trackRef.current;
-      if (!track) return;
-
-      // total width of the track (both copies)
-      const totalWidth = track.scrollWidth;
-      // half width is the width of one set of slides
-      const half = totalWidth / 2;
-
-      // set translate to negative half in pixels
-      setTranslatePx(Math.round(half));
-      setReady(true);
-    };
-
-    // If images already loaded (cached), measure immediately
-    // Otherwise, measurement will be triggered by onLoad handlers below
-    // Use a small timeout to allow layout to settle
+    // small timeout to allow layout to settle
     const t = setTimeout(() => {
-      // only measure if all images appear loaded
-      if (loadedCountRef.current >= imagesToLoad) measure();
+      if (loadedCountRef.current >= imagesToLoad) measureTrack();
     }, 50);
-
     return () => clearTimeout(t);
-  }, [slides, ready]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slides]);
 
-  // image onLoad handler
+  // re-measure on resize using ResizeObserver for precision
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const ro = new ResizeObserver(() => {
+      // only re-measure if we've already been ready once
+      if (loadedCountRef.current >= imagesToLoad) {
+        measureTrack();
+      }
+    });
+    ro.observe(track);
+    return () => ro.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slides, imagesToLoad]);
+
+  // image onLoad handler (count only unique images)
   const handleImgLoad = () => {
     loadedCountRef.current += 1;
     if (loadedCountRef.current >= imagesToLoad) {
       // measure after a tiny delay to ensure layout settled
       requestAnimationFrame(() => {
-        const track = trackRef.current;
-        if (!track) return;
-        const totalWidth = track.scrollWidth;
-        const half = totalWidth / 2;
-        setTranslatePx(Math.round(half));
-        setReady(true);
+        measureTrack();
       });
     }
   };
 
   if (!slides || slides.length === 0) return null;
 
+  // duplicate slides for seamless loop
   const doubled = slides.concat(slides);
 
   return (
@@ -84,17 +92,11 @@ export default function Carousel({ slides = [] }) {
           <div className="marquee__track" ref={trackRef}>
             {doubled.map((src, i) => (
               <div className="marquee__item" key={`${i}-${src}`}>
-                <img
+                <CarouselCard
                   src={src}
                   alt={`player ${(i % slides.length) + 1}`}
-                  onLoad={handleImgLoad}
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    height: "200px",
-                    objectFit: "cover",
-                    borderRadius: 8,
-                  }}
+                  // attach onLoad only for the first copy of each unique slide
+                  onLoad={i < slides.length ? handleImgLoad : undefined}
                 />
               </div>
             ))}
@@ -113,6 +115,8 @@ export default function Carousel({ slides = [] }) {
           /* animate using the pixel translate variable for exactness */
           animation: marquee var(--marquee-duration) linear infinite;
           will-change: transform;
+          /* GPU hint */
+          transform: translate3d(0,0,0);
         }
 
         .marquee__item {
@@ -142,7 +146,6 @@ export default function Carousel({ slides = [] }) {
           }
         }
 
-
         @keyframes marquee {
           0% {
             transform: translateX(0);
@@ -156,11 +159,14 @@ export default function Carousel({ slides = [] }) {
   );
 }
 
-// {slides.concat(slides).map((src, i) => (
-//               <div className="marquee__item" key={i}>
+
+// <div className="marquee__track" ref={trackRef}>
+//             {doubled.map((src, i) => (
+//               <div className="marquee__item" key={`${i}-${src}`}>
 //                 <img
 //                   src={src}
-//                   alt={`player-${i}`}
+//                   alt={`player ${(i % slides.length) + 1}`}
+//                   onLoad={handleImgLoad}
 //                   style={{
 //                     display: "block",
 //                     width: "100%",
@@ -168,3 +174,5 @@ export default function Carousel({ slides = [] }) {
 //                     objectFit: "cover",
 //                     borderRadius: 8,
 //                   }}
+//                 />
+//               </div>

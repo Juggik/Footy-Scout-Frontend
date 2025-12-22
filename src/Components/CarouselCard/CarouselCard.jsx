@@ -1,0 +1,34 @@
+import React from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+
+export default function CarouselCard({ src, alt, onLoad }) {
+  return (
+    <Card sx={{ maxWidth: 345 } }>
+      <CardMedia
+        component="img"
+        alt={alt}
+        onLoad={onLoad}
+        height="200"
+        image={src}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          (player Name go here))
+        </Typography>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+          Player Club: 
+          Player Nationality: (get an emoji pack with the players flags)
+          Player foot 
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small">Click to find out more</Button>
+      </CardActions>
+    </Card>
+  );
+}
