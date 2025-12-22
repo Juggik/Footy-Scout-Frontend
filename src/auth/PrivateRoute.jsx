@@ -1,9 +1,9 @@
 // src/auth/PrivateRoute.jsx
-import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import useAuth from "./useAuth";
+import React from 'react';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import useAuth from './useAuth';
 
-export default function PrivateRoute({ children }) {
+export default function PrivateRoute() {
   const { isAuthenticated, loading } = useAuth();
   const location = useLocation();
 
@@ -12,9 +12,8 @@ export default function PrivateRoute({ children }) {
   }
 
   if (!isAuthenticated) {
-    // preserve where the user wanted to go so you can redirect back after sign-in
     return <Navigate to="/sign-in" state={{ from: location }} replace />;
   }
 
-  return children;
+  return <Outlet />;
 }

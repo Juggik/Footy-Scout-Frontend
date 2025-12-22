@@ -3,7 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SignInPage from "./features/Sign-in-page/SignInPage";
 import { AuthProvider } from "./auth/AuthProvider";
 import PrivateRoute from "./auth/PrivateRoute";
-
+import HomePage from "./features/Home-page/HomePage";
+import AppLayout from "./layouts/AppLayout";
 
 export default function App() {
   return (
@@ -12,14 +13,13 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/sign-in" replace />} />
           <Route path="/sign-in" element={<SignInPage />} />
-          <Route
-            path="/home"
-            element={
-              <PrivateRoute>
-                
-              </PrivateRoute>
-            }
-          />
+          <Route element={<AppLayout />}>
+            <Route element={<PrivateRoute />}>
+              <Route path="/home" element={<HomePage />} />
+              {/* <Route path="/profile" element={<ProfilePage />} /> */}
+              {/* other protected routes */}
+            </Route>
+          </Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>
