@@ -15,14 +15,10 @@ export default function SignInPage() {
   // Redirect after sign-in (need to add the homepage then redirect to it after sign in from here)
   useEffect(() => {
     if (loading) return;
-    if (!isAuthenticated) return;
+    if (!isAuthenticated) return; //i.e. while its loading or not authenticated do nothing, but once its authenticated, navigate to /home"
 
-    const from = location.state?.from?.pathname;
-    if (from) {
-      navigate(from, { replace: true });
-    }
-    // otherwise stay on the sign-in page and show the profile UI
-  }, [isAuthenticated, loading, navigate, location.state]);
+    navigate("/home");
+  }, [isAuthenticated, loading, navigate]);
 
   async function onSignIn() {
     setBusy(true);
