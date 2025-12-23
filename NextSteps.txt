@@ -7,7 +7,7 @@
  -can then use wiki image api to get the players photos each time.
  
  after home page make the page for when you actually click on a player that shows his stats last games, form etc,
- -then need to come back to home page and make a working search box that takes you to the pla
+ -then need to come back to home page and make a working search box that takes you to the player pages
 
 
  -finish player card, style colourscheme etc
@@ -22,3 +22,4 @@
 -figure out the MUI stuff
 -eventually ci/cd stuff for auto deployment
 -bug on refreshing sign in page
+-make a contact page with a proper form in it so you can see how forms work in react"
