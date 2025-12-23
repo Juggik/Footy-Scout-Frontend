@@ -16,6 +16,8 @@ import spain from "../../assets/Nation-flags/Spain.svg";
 import portugal from "../../assets/Nation-flags/Portugal.svg";
 
 import Carousel from "../../Components/Carousel/Carousel";
+import StatCard from "../../Components/StatCard/StatCard"
+
 
 export default function HomePage() {
   const slides = [
@@ -96,19 +98,8 @@ export default function HomePage() {
   return (
     <div>
       <Carousel slides={slides} />
+      <StatCard />
     </div>
   );
 }
 
-// {slides.concat(slides).map((src, i) => (
-//               <div className="marquee__item" key={i}>
-//                 <img
-//                   src={src}
-//                   alt={`player-${i}`}
-//                   style={{
-//                     display: "block",
-//                     width: "100%",
-//                     height: "200px",
-//                     objectFit: "cover",
-//                     borderRadius: 8,
-//                   }}

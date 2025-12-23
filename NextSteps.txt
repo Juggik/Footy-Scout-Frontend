@@ -1,4 +1,7 @@
 -immediate steps: 
+-
+
+-for the tables use the emoji flags to show which league theyre in (just do top 5 only for ease)
  
  -https://www.football-data.org/documentation/quickstart - apis for home page use
  if you go to bottom theres an example to use the api to get top 10 scorers in a league,
@@ -14,6 +17,8 @@
  -identify which scnearios need navigate or which need link to or navlink copilot can tell you which scenario to use which
 
 - create  footer thats consistent across all pages
+-make a mouse thats nice like the see through black circle one that inverts colour
+-add an animated shine effect on the player cards on home page
 
 -need to set up authentication on the backend so thereafter all routes have it.
 - need to figure out how to have a default style of default navbar thats reusable across all pages
