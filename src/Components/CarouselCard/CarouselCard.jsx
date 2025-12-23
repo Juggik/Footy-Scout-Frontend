@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-export default function CarouselCard({ src, alt, onLoad }) {
+export default function CarouselCard({ src, alt, onLoad, name, nationality, club, foot, emoji}) {
   return (
     <Card sx={{ maxWidth: 345 } }>
       <CardMedia
@@ -18,12 +18,12 @@ export default function CarouselCard({ src, alt, onLoad }) {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          (player Name go here))
+          {name}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Player Club: 
-          Player Nationality: (get an emoji pack with the players flags)
-          Player foot 
+          Player Club: {club} <br />
+          Player Nationality: <img src= {emoji} alt="Emoji flag " height="10" /> {nationality} <br />
+          Player foot: {foot}
         </Typography>
       </CardContent>
       <CardActions>

@@ -90,11 +90,17 @@ export default function Carousel({ slides = [] }) {
           }}
         >
           <div className="marquee__track" ref={trackRef}>
-            {doubled.map((src, i) => (
-              <div className="marquee__item" key={`${i}-${src}`}>
+            {doubled.map((players, i) => (
+              <div className="marquee__item" key={`${i}-${players}`}>
                 <CarouselCard
-                  src={src}
+                  src={players.src}
                   alt={`player ${(i % slides.length) + 1}`}
+                  name={players.name}
+                  nationality={players.nationality}
+                  emoji={players.emoji}
+                  club={players.club}
+                  foot={players.foot}
+                  
                   // attach onLoad only for the first copy of each unique slide
                   onLoad={i < slides.length ? handleImgLoad : undefined}
                 />

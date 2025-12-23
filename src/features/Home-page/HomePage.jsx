@@ -7,10 +7,91 @@ import messi from "../../assets/home-page-player-faces/messi.jpg";
 import ronaldo from "../../assets/home-page-player-faces/ronaldo.jpg";
 import salah from "../../assets/home-page-player-faces/salah.jpg";
 import yamal from "../../assets/home-page-player-faces/yamal.jpg";
+import england from "../../assets/Nation-flags/England.svg";
+import argentina from "../../assets/Nation-flags/Argentina.svg";
+import egypt from "../../assets/Nation-flags/Egypt.svg";
+import french from "../../assets/Nation-flags/French.svg";
+import norway from "../../assets/Nation-flags/Norway.svg";
+import spain from "../../assets/Nation-flags/Spain.svg";
+import portugal from "../../assets/Nation-flags/Portugal.svg";
+
 import Carousel from "../../Components/Carousel/Carousel";
 
 export default function HomePage() {
-  const slides = [declan, dembele, haaland, mbappe, messi, ronaldo, salah, yamal];
+  const slides = [
+    {
+      id: 1,
+      name: "Declan Rice",
+      club: "Arsenal FC",
+      emoji: england,
+      nationality: "English",
+      foot: "Right",
+      src: declan,
+    },
+    {
+      id: 2,
+      name: "Ousmane Dembele",
+      club: "Paris Saint Germain",
+      emoji: french,
+      nationality: "French",
+      foot: "Both",
+      src: dembele,
+    },
+    {
+      id: 3,
+      name: "Erling Haaland",
+      club: "Manchester City",
+      emoji: norway,
+      nationality: "Norwegian",
+      foot: "Left",
+      src: haaland,
+    },
+    {
+      id: 4,
+      name: "Kylian Mbappe",
+      src: mbappe,
+      club: "Paris Saint Germain",
+      emoji: french,
+      nationality: "French",
+      foot: "Right",
+    },
+    {
+      id: 5,
+      name: "Lionel Messi",
+      src: messi,
+      club: "Inter Miami FC",
+      emoji: argentina,
+      nationality: "Argentinian",
+      foot: "Left",
+    },
+    {
+      id: 6,
+      name: "Cristiano Ronaldo",
+      src: ronaldo,
+      club: "Al-Nassr",
+      emoji: portugal,
+      nationality: "Portugal",
+      foot: "Right",
+    },
+    {
+      id: 7,
+      name: "Mohamed Salah",
+      src: salah,
+      club: "Liverpool FC",
+      emoji: egypt,
+      nationality: "Egyptian",
+      foot: "Left",
+    },
+    {
+      id: 8,
+      name: "Lamine Yamal",
+      src: yamal,
+      club: "Barcelona FC",
+      emoji: spain,
+      nationality: "Spanish",
+      foot: "Left",
+    },
+  ];
 
   return (
     <div>
@@ -18,7 +99,6 @@ export default function HomePage() {
     </div>
   );
 }
-
 
 // {slides.concat(slides).map((src, i) => (
 //               <div className="marquee__item" key={i}>
