@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import client from "../../api/client";
+
+
 import declan from "../../assets/home-page-player-faces/declanrice.jpg";
 import dembele from "../../assets/home-page-player-faces/dembele.webp";
 import haaland from "../../assets/home-page-player-faces/Haaland.webp";
@@ -20,6 +23,7 @@ import StatCard from "../../Components/StatCard/StatCard"
 
 
 export default function HomePage() {
+  const [stats, setStats] = useState(null);
   const slides = [
     {
       id: 1,
@@ -95,10 +99,43 @@ export default function HomePage() {
     },
   ];
 
+  useEffect(() => {
+    async function loadStats() {
+      const res = await client.get("/homePageStats/topStats");
+      const data = res.data.data;
+
+      const mapPlayers = (arr) =>
+        arr.map((p, i) => ({
+          rank: i + 1,
+          name: p.player_name,
+          club: p.team_name,
+          league: p.competition,
+          matches: p.played_matches,
+          goals: p.goals,
+          assists: p.assists,
+        }));
+
+      setStats({
+        topScorers: mapPlayers(data.top_scorers),
+        topAssists: mapPlayers(data.top_assists),
+        topGA: mapPlayers(data.top_g_a),
+      });
+    }
+
+    loadStats();
+  }, []);
+
+  if (!stats) return <div>Loading…</div>;
+
   return (
     <div>
       <Carousel slides={slides} />
-      <StatCard />
+
+      <StatCard
+        topScorers={stats.topScorers}
+        topAssists={stats.topAssists}
+        topGA={stats.topGA}
+      />
     </div>
   );
 }

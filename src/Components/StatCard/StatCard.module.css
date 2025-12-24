@@ -11,14 +11,15 @@
 }
 
 /* Grid container */
-.mtGrid{
-  display:grid;
-  grid-template-columns: repeat(4, 1fr);
+.mtGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--gap);
   padding: 16px 6px;
   align-items: start;
   box-sizing: border-box;
 }
+
 
 /* Tile */
 .mtTile{

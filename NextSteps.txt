@@ -2,6 +2,8 @@
 -
 
 -for the tables use the emoji flags to show which league theyre in (just do top 5 only for ease)
+-make the tile inside statCard as its own component
+-need to sort out authentication on backend as right now seems like routes are exposed as no @jwt_required or whatever on the routes
  
  -https://www.football-data.org/documentation/quickstart - apis for home page use
  if you go to bottom theres an example to use the api to get top 10 scorers in a league,
