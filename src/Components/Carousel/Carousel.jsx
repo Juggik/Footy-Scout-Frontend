@@ -46,16 +46,22 @@ export default function Carousel({ slides = [] }) {
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
+
+    // Observe the track AND its parent container
+    const parent = track.parentElement;
+
     const ro = new ResizeObserver(() => {
-      // only re-measure if we've already been ready once
       if (loadedCountRef.current >= imagesToLoad) {
         measureTrack();
       }
     });
+
     ro.observe(track);
+    if (parent) ro.observe(parent);
+
     return () => ro.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slides, imagesToLoad]);
+
 
   // image onLoad handler (count only unique images)
   const handleImgLoad = () => {
