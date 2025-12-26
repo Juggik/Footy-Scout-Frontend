@@ -5,6 +5,7 @@ import { AuthProvider } from "./auth/AuthProvider";
 import PrivateRoute from "./auth/PrivateRoute";
 import HomePage from "./features/Home-page/HomePage";
 import AppLayout from "./layouts/AppLayout";
+import PlayerDetailsPage from "./features/PlayerDetailsPage/PlayerDetailsPage"
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route element={<AppLayout />}>
             <Route element={<PrivateRoute />}>
               <Route path="/home" element={<HomePage />} />
+              <Route path="/playerDetails/:id" element={<PlayerDetailsPage />} />
               {/* <Route path="/profile" element={<ProfilePage />} /> */}
               {/* other protected routes */}
             </Route>

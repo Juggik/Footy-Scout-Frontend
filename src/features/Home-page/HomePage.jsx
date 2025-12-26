@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import client from "../../api/client";
 
-
 import declan from "../../assets/home-page-player-faces/declanrice.jpg";
 import dembele from "../../assets/home-page-player-faces/dembele.webp";
 import haaland from "../../assets/home-page-player-faces/Haaland.webp";
@@ -19,8 +18,7 @@ import spain from "../../assets/Nation-flags/Spain.svg";
 import portugal from "../../assets/Nation-flags/Portugal.svg";
 
 import Carousel from "../../Components/Carousel/Carousel";
-import StatCard from "../../Components/StatCard/StatCard"
-
+import StatCard from "../../Components/StatCard/StatCard";
 
 export default function HomePage() {
   const [stats, setStats] = useState(null);
@@ -104,8 +102,10 @@ export default function HomePage() {
       const res = await client.get("/homePageStats/topStats");
       const data = res.data.data;
 
+      // inside useEffect -> loadStats()
       const mapPlayers = (arr) =>
         arr.map((p, i) => ({
+          id: p.id,
           rank: i + 1,
           name: p.player_name,
           club: p.team_name,
@@ -121,7 +121,6 @@ export default function HomePage() {
         topGA: mapPlayers(data.top_g_a),
       });
     }
-
     loadStats();
   }, []);
 
@@ -139,4 +138,3 @@ export default function HomePage() {
     </div>
   );
 }
-

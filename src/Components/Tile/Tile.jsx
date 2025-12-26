@@ -1,5 +1,6 @@
 import React from "react";
-import styles from "../StatCard/StatCard.module.css"
+import { useNavigate } from "react-router-dom";
+import styles from "../StatCard/StatCard.module.css";
 
 /* Utility: convert hex to rgba string */
 function hexToRgba(hex, alpha = 1) {
@@ -24,13 +25,27 @@ function splitName(fullName) {
 }
 
 /* Reusable Tile Component */
-export default function Tile({ title, items, statKey, statLabel, colorFrom, colorTo }) {
-  const values = items.map((it) =>
+export default function Tile({ title, items = [], statKey, statLabel, colorFrom, colorTo }) {
+  const navigate = useNavigate();
+
+  const values = (items || []).map((it) =>
     statKey === "g+a" ? (it.goals || 0) + (it.assists || 0) : it[statKey] ?? 0
   );
 
   const maxVal = Math.max(...values, 1);
   const hoverColor = hexToRgba(colorTo, 0.18);
+
+  const handleRowActivate = (player) => {
+    // navigate to /playerDetails/:id and pass the name in location.state
+    navigate(`/playerDetails/${player.id}`, { state: { name: player.name } });
+  };
+
+  const onRowKeyDown = (e, player) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleRowActivate(player);
+    }
+  };
 
   return (
     <div className={styles.mtTile} style={{ ["--hover-color"]: hoverColor }}>
@@ -49,7 +64,7 @@ export default function Tile({ title, items, statKey, statLabel, colorFrom, colo
           <div className={styles.mtHeadCell}>{statLabel}</div>
         </div>
 
-        {items.slice(0, 10).map((p) => {
+        {(items || []).slice(0, 10).map((p) => {
           const statValue =
             statKey === "g+a"
               ? (p.goals || 0) + (p.assists || 0)
@@ -58,8 +73,18 @@ export default function Tile({ title, items, statKey, statLabel, colorFrom, colo
           const pct = Math.round((statValue / maxVal) * 100);
           const { first, last } = splitName(p.name);
 
+          const rowKey = p.id ?? `${p.rank}-${p.name}-${p.club}`;
+
           return (
-            <div className={styles.mtRow} key={p.rank}>
+            <div
+              className={styles.mtRow}
+              key={rowKey}
+              role="button"
+              tabIndex={0}
+              onClick={() => handleRowActivate(p)}
+              onKeyDown={(e) => onRowKeyDown(e, p)}
+              style={{ cursor: "pointer" }}
+            >
               <div className={styles.mtRowRank}>#{p.rank}</div>
 
               <div className={styles.mtRowInfo}>
