@@ -172,19 +172,3 @@ export default function Carousel({ slides = [] }) {
 }
 
 
-// <div className="marquee__track" ref={trackRef}>
-//             {doubled.map((src, i) => (
-//               <div className="marquee__item" key={`${i}-${src}`}>
-//                 <img
-//                   src={src}
-//                   alt={`player ${(i % slides.length) + 1}`}
-//                   onLoad={handleImgLoad}
-//                   style={{
-//                     display: "block",
-//                     width: "100%",
-//                     height: "200px",
-//                     objectFit: "cover",
-//                     borderRadius: 8,
-//                   }}
-//                 />
-//               </div>

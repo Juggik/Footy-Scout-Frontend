@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,6 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import logoUrl from "../../assets/football-logo.svg"
+import TextField from "@mui/material/TextField";
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -20,6 +22,8 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 export default function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [searchValue, setSearchValue] = React.useState("")
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -35,6 +39,19 @@ export default function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleSearch = (e) => {
+    console.log(e.target.value)
+    setSearchValue(e.target.value)
+  }
+
+  const handlePressEnter = (e) => {
+    console.log(e.key)
+    if (e.key === "Enter") {
+      navigate(`/playerDetails/${99}`, {state: {name: searchValue}})
+
+    }
+  }
 
   return (
     <AppBar position="static">
@@ -58,6 +75,17 @@ export default function NavBar() {
           >
           Footy Scouter
           </Typography>
+          <TextField
+          onChange={(e) => handleSearch(e)}
+          onKeyPress={handlePressEnter}
+
+          id="outlined-basic"
+          variant="outlined"
+          label="Player Search"
+          
+        />
+
+          
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
