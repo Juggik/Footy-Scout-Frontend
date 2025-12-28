@@ -1,3 +1,6 @@
+/* src/index.css */
+
+/* --- Base tokens and system font --- */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -13,6 +16,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* --- Links --- */
 a {
   font-weight: 500;
   color: #646cff;
@@ -22,7 +26,7 @@ a:hover {
   color: #535bf2;
 }
 
-/* src/index.css */
+/* --- Global layout defaults --- */
 body {
   margin: 0;
   min-width: 320px;
@@ -30,7 +34,7 @@ body {
   /* keep global defaults only; page layout is handled in modules */
 }
 
-
+/* --- Headings / buttons --- */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -55,6 +59,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* --- Light mode overrides --- */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -65,5 +70,42 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Custom cursor integration (global rules)
+   - The Cursor component adds `has-custom-cursor` to <body> when active.
+   - These rules hide the native cursor while preserving native cursors
+     for text inputs and interactive controls.
+   - The component should also set pointer-events: none on the overlay.
+   ------------------------------------------------------------------ */
+
+/* hide native cursor when custom cursor is enabled */
+body.has-custom-cursor,
+body.has-custom-cursor * {
+  cursor: none !important;
+}
+
+/* keep native cursor for text inputs and contenteditable (caret) */
+body.has-custom-cursor input,
+body.has-custom-cursor textarea,
+body.has-custom-cursor [contenteditable="true"] {
+  cursor: text !important;
+}
+
+/* keep native pointer for form controls where pointer is important (optional)
+   If you want the custom cursor to remain visible even on buttons/links,
+   remove these rules so the browser doesn't show its pointer. */
+body.has-custom-cursor select,
+body.has-custom-cursor option {
+  cursor: auto !important;
+}
+
+/* Respect reduced motion and touch devices: don't force hiding native cursor */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  body.has-custom-cursor,
+  body.has-custom-cursor * {
+    cursor: auto !important;
   }
 }

@@ -1,50 +1,180 @@
-/* Cursor.module.css */
+:root {
+  --cursor-size: 52px;
+  --ball-size: 44px;
+  --trail-max: 140px;
+  --accent-blue: #2ea3ff;
+  --accent-red: #ff3b3b;
+  --accent-black: #0b0b0b;
+  --accent-white: #ffffff;
+}
+
+/* container - JS controls transform (position) */
 .cursor {
   position: fixed;
   top: 0;
   left: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
   pointer-events: none;
-  transform: translate(-50%, -50%) translate3d(0,0,0);
-  transition: opacity 160ms linear, transform 120ms ease;
+  transform: translate(-50%, -50%) translate3d(0, 0, 0);
+  transition: opacity 160ms linear;
   z-index: 9999;
-  mix-blend-mode: normal;
   display: flex;
   align-items: center;
   justify-content: center;
   will-change: transform, opacity;
 }
 
+/* dynamic stretched trail behind the ball (blue / white / black / red) */
+.trail {
+  position: absolute;
+  right: calc(var(--cursor-size) * -0.35);
+  height: 8px;
+  width: 0px; /* updated by JS */
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(46,163,255,0.0) 0%,
+    rgba(46,163,255,0.28) 20%,
+    rgba(255,255,255,0.95) 45%,
+    rgba(11,11,11,0.22) 70%,
+    rgba(255,59,59,0.18) 100%
+  );
+  filter: blur(6px);
+  transform-origin: center right;
+  transition: width 120ms linear, transform 120ms linear, opacity 120ms linear;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* inner ball container - scale/rotation animations live here */
 .inner {
+  width: var(--ball-size);
+  height: var(--ball-size);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center;
+  transition: transform 160ms ease;
+  /* subtle idle rotation + breathe */
+  animation: idle-rotate 6s linear infinite;
+  background: transparent;
+}
+
+/* ensure imported SVG image fits and doesn't block events */
+.ballImg,
+.ballSvg {
   width: 100%;
   height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* turf ring behind ball for stadium vibe */
+.turfRing {
+  fill: rgba(0,0,0,0.06);
+  stroke: rgba(0,0,0,0.08);
+  opacity: 0.95;
+}
+
+/* ball spin */
+.ballGroup {
+  transform-origin: 32px 32px;
+  animation: ball-spin 3.6s linear infinite;
+}
+
+/* glow behind ball tuned to blue/white palette */
+.glow {
+  position: absolute;
+  width: calc(var(--ball-size) * 1.8);
+  height: calc(var(--ball-size) * 1.8);
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.25) 30%, rgba(0,0,0,0.06) 100%);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-  transition: transform 160ms ease, background 160ms ease;
-  transform-origin: center;
+  background: radial-gradient(circle at 40% 35%, rgba(255,255,255,0.95), rgba(46,163,255,0.12) 20%, rgba(11,11,11,0.02) 60%, rgba(0,0,0,0) 100%);
+  filter: blur(8px);
+  opacity: 0.9;
+  pointer-events: none;
 }
 
-/* active (mousedown) state */
-.cursor--active .inner {
-  transform: scale(0.85);
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,1), rgba(255,255,255,0.6) 30%, rgba(0,0,0,0.08) 100%);
+/* particle style (appended to body by JS) */
+.particle {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(0.6px);
+  transform: translate(-50%, -50%) scale(1);
+  animation: particle-fly 700ms cubic-bezier(.2,.9,.3,1) forwards;
+  z-index: 9998;
 }
 
-/* larger hover state you can toggle via JS when hovering interactive elements */
+/* particle animation: fly outward, fade and blur */
+@keyframes particle-fly {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) translateY(0);
+    filter: blur(0px);
+  }
+  60% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.9) translateY(-6px);
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6) translateY(-18px);
+    filter: blur(4px);
+  }
+}
+
+/* hover state: enlarge inner, show trail and accent */
 .cursor--hover .inner {
-  transform: scale(1.6);
-  background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,255,255,0.6));
+  transform: scale(1.45);
+  transition: transform 140ms ease;
+}
+.cursor--hover .trail {
+  opacity: 0.95;
 }
 
-/* hide on touch devices */
-@media (hover: none) {
-  .cursor { display: none; }
+/* active (mousedown) state: quick kick pulse */
+.cursor--active .inner {
+  transform: scale(0.92);
+  transition: transform 120ms cubic-bezier(.2,.9,.3,1);
+}
+.cursor--kick .inner {
+  animation: kick-bounce 260ms ease;
 }
 
-/* respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .cursor { display: none; }
+/* keyframes */
+@keyframes kick-bounce {
+  0% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-10px) scale(1.08); }
+  60% { transform: translateY(3px) scale(0.96); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes ball-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* subtle idle rotation so ball feels alive (no transform on container) */
+@keyframes idle-rotate {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(6deg) scale(1.02); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+/* accessibility: hide on touch or reduced motion */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .cursor { display: none !important; }
+}
+
+/* responsive */
+@media (max-width: 480px) {
+  :root {
+    --cursor-size: 40px;
+    --ball-size: 32px;
+    --trail-max: 88px;
+  }
 }
