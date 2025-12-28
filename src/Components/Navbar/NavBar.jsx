@@ -88,7 +88,7 @@ export default function NavBar() {
             id="player-search"
             variant="outlined"
             size="small"
-            placeholder="Search players, teams or positions"
+            placeholder="Search to scout a player"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start" sx={{ ml: 0.5 }}>
