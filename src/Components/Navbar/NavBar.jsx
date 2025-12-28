@@ -13,8 +13,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import logoUrl from "../../assets/football-logo.svg"
+import logoUrl from "../../assets/football-logo.svg";
 import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -22,7 +25,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 export default function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [searchValue, setSearchValue] = React.useState("")
+  const [searchValue, setSearchValue] = React.useState("");
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
@@ -41,17 +44,18 @@ export default function NavBar() {
   };
 
   const handleSearch = (e) => {
-    console.log(e.target.value)
-    setSearchValue(e.target.value)
-  }
+    setSearchValue(e.target.value);
+  };
+
+  const handleClearSearch = () => {
+    setSearchValue("");
+  };
 
   const handlePressEnter = (e) => {
-    console.log(e.key)
     if (e.key === "Enter") {
-      navigate(`/playerDetails/${99}`, {state: {name: searchValue}})
-
+      navigate(`/playerDetails/${99}`, { state: { name: searchValue } });
     }
-  }
+  };
 
   return (
     <AppBar position="static">
@@ -73,19 +77,72 @@ export default function NavBar() {
               textDecoration: 'none',
             }}
           >
-          Footy Scouter
+            Footy Scouter
           </Typography>
+
+          {/* Styled search box */}
           <TextField
-          onChange={(e) => handleSearch(e)}
-          onKeyPress={handlePressEnter}
-
-          id="outlined-basic"
-          variant="outlined"
-          label="Player Search"
-          
-        />
-
-          
+            value={searchValue}
+            onChange={handleSearch}
+            onKeyDown={handlePressEnter}
+            id="player-search"
+            variant="outlined"
+            size="small"
+            placeholder="Search players, teams or positions"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start" sx={{ ml: 0.5 }}>
+                  <SearchIcon sx={{ color: 'rgba(255,255,255,0.9)' }} />
+                </InputAdornment>
+              ),
+              endAdornment: searchValue ? (
+                <InputAdornment position="end">
+                  <IconButton
+                    size="small"
+                    onClick={handleClearSearch}
+                    sx={{
+                      color: 'rgba(255,255,255,0.9)',
+                      '&:hover': { backgroundColor: 'rgba(255,255,255,0.06)' },
+                    }}
+                    aria-label="clear search"
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ) : null,
+            }}
+            sx={{
+              ml: 2,
+              mr: 2,
+              width: { xs: '100%', sm: 360 },
+              backgroundColor: 'rgba(255,255,255,0.06)',
+              borderRadius: '28px',
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '28px',
+                paddingRight: 0,
+                color: 'inherit',
+                '& fieldset': {
+                  borderColor: 'transparent',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(255,255,255,0.12)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'rgba(255,255,255,0.24)',
+                },
+                '& input': {
+                  padding: '10px 12px',
+                },
+              },
+              '& .MuiInputBase-input::placeholder': {
+                color: 'rgba(255,255,255,0.7)',
+                opacity: 1,
+              },
+            }}
+            inputProps={{
+              'aria-label': 'player search',
+            }}
+          />
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -121,6 +178,7 @@ export default function NavBar() {
               ))}
             </Menu>
           </Box>
+
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -140,6 +198,7 @@ export default function NavBar() {
           >
             LOGO
           </Typography>
+
           {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -180,6 +239,7 @@ export default function NavBar() {
               ))}
             </Menu>
           </Box> */}
+
         </Toolbar>
       </Container>
     </AppBar>
