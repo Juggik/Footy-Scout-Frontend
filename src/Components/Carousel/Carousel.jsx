@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import CarouselCard from "../CarouselCard/CarouselCard";
+import styles from "./Carousel.module.css";
 
 export default function Carousel({ slides = [] }) {
   // internal speed control (seconds per full loop)
@@ -86,7 +87,7 @@ export default function Carousel({ slides = [] }) {
       >
         {/* set CSS variables for duration and translate (px) */}
         <div
-          className="marquee"
+          className={styles.marquee}
           style={{
             // duration in seconds
             "--marquee-duration": `${ANIMATION_DURATION}s`,
@@ -94,9 +95,9 @@ export default function Carousel({ slides = [] }) {
             "--marquee-translate": ready ? `-${translatePx}px` : `-0px`,
           }}
         >
-          <div className="marquee__track" ref={trackRef}>
+          <div className={styles.marquee__track} ref={trackRef}>
             {doubled.map((players, i) => (
-              <div className="marquee__item" key={`${i}-${players.name || i}`}>
+              <div className={styles.marquee__item} key={`${i}-${players.name || i}`}>
                 <CarouselCard
                   src={players.src}
                   alt={`player ${(i % slides.length) + 1}`}
@@ -115,129 +116,6 @@ export default function Carousel({ slides = [] }) {
           </div>
         </div>
       </section>
-
-      <style>{`
-        :root { --gap-default: 20px; }
-
-        .marquee { --gap: var(--gap-default); }
-
-        .marquee__track {
-          display: flex;
-          align-items: center;
-          /* animate using the pixel translate variable for exactness */
-          animation: marquee var(--marquee-duration) linear infinite;
-          will-change: transform;
-          /* GPU hint */
-          transform: translate3d(0,0,0);
-        }
-
-        .marquee__item {
-          box-sizing: border-box;
-          /* 4 items visible on wide screens; adjust if you want different visible count */
-          flex: 0 0 calc(25% - (var(--gap) * 3 / 4));
-          max-width: 330px;
-          margin-right: var(--gap);
-        }
-
-        /* remove trailing margin on last duplicated item to avoid tiny extra space */
-        .marquee__track > .marquee__item:last-child {
-          margin-right: 0;
-        }
-
-        @media (max-width: 1024px) {
-          .marquee__item {
-            flex: 0 0 calc(50% - (var(--gap) / 2));
-            max-width: 45%;
-          }
-        }
-
-        @media (max-width: 464px) {
-          .marquee__item {
-            flex: 0 0 calc(100% - var(--gap));
-            max-width: 100%;
-          }
-        }
-
-        @keyframes marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(var(--marquee-translate));
-          }
-        }
-
-        /* ===== FIFA-style shimmer for cards =====
-           This targets the Card component rendered by CarouselCard.
-           CarouselCard adds the class "ut-card" to the root Card element.
-        */
-
-        .ut-card {
-          position: relative;
-          overflow: hidden; /* ensure the shine is clipped to the card */
-          border-radius: 8px; /* match MUI Card radius if needed */
-          /* optional subtle base highlight so shimmer reads nicely */
-          background-clip: padding-box;
-        }
-
-        /* the shining gradient overlay */
-        .ut-card::before {
-          content: "";
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          /* diagonal band: adjust stops and alpha for stronger/weaker shine */
-          background: linear-gradient(
-            120deg,
-            rgba(255,255,255,0) 0%,
-            rgba(255,255,255,0.08) 40%,
-            rgba(255,255,255,0.6) 50%,
-            rgba(255,255,255,0.08) 60%,
-            rgba(255,255,255,0) 100%
-          );
-          transform: translateX(-100%) rotate(10deg);
-          pointer-events: none;
-          mix-blend-mode: screen; /* try overlay or screen depending on card colors */
-          animation: ut-shine 3.2s linear infinite;
-          will-change: transform;
-          opacity: 0.95;
-        }
-
-        /* optional: slightly slower, subtler shimmer for mobile */
-        @media (max-width: 464px) {
-          .ut-card::before {
-            animation-duration: 4.5s;
-            background: linear-gradient(
-              120deg,
-              rgba(255,255,255,0) 0%,
-              rgba(255,255,255,0.06) 45%,
-              rgba(255,255,255,0.5) 50%,
-              rgba(255,255,255,0.06) 55%,
-              rgba(255,255,255,0) 100%
-            );
-          }
-        }
-
-        @keyframes ut-shine {
-          0% {
-            transform: translateX(-100%) rotate(10deg);
-          }
-          100% {
-            transform: translateX(100%) rotate(10deg);
-          }
-        }
-
-        /* Hover-only variant: animation is paused by default and plays on hover */
-        .ut-card--hover::before {
-          animation-play-state: paused;
-          opacity: 0.95;
-        }
-        .ut-card--hover:hover::before {
-          animation-play-state: running;
-        }
-      `}</style>
     </div>
   );
 }

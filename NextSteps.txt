@@ -1,11 +1,8 @@
 -immediate steps: 
 -
--for the data returned from the backend, add a UUID for each row, 
-index it on frontend, then need to pass the name into the url state 
-and use that to obtain info for the page that shows when you click a player
--after that need search box on nav bar that also takes you to that same page but searches for the closest match to the player the user
-typed in
-can get the image from wiki
+-need to make it so clicking on the player cards
+- also navigated to the player details page when you click the "click to find out more"
+
 
 -for the tables use the emoji flags to show which league theyre in (just do top 5 only for ease)
 -make the tile inside statCard as its own component

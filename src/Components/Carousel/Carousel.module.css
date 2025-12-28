@@ -1,0 +1,129 @@
+:root {
+  --gap-default: 20px;
+}
+
+/* expose gap variable to the component */
+.marquee {
+  --gap: var(--gap-default);
+}
+
+/* track */
+.marquee__track {
+  display: flex;
+  align-items: center;
+  /* animate using the pixel translate variable for exactness */
+  animation: marquee var(--marquee-duration) linear infinite;
+  will-change: transform;
+  /* GPU hint */
+  transform: translate3d(0, 0, 0);
+}
+
+/* item sizing */
+.marquee__item {
+  box-sizing: border-box;
+  /* 4 items visible on wide screens; adjust if you want different visible count */
+  flex: 0 0 calc(25% - (var(--gap) * 3 / 4));
+  max-width: 330px;
+  margin-right: var(--gap);
+}
+
+/* remove trailing margin on last duplicated item to avoid tiny extra space */
+.marquee__track > .marquee__item:last-child {
+  margin-right: 0;
+}
+
+@media (max-width: 1024px) {
+  .marquee__item {
+    flex: 0 0 calc(50% - (var(--gap) / 2));
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 464px) {
+  .marquee__item {
+    flex: 0 0 calc(100% - var(--gap));
+    max-width: 100%;
+  }
+}
+
+/* marquee keyframes (global) */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(var(--marquee-translate));
+  }
+}
+
+/* ===== FIFA-style shimmer for cards =====
+   CarouselCard adds the class "ut-card" to the root Card element.
+   Target those as global selectors so the module CSS can style them.
+*/
+
+/* global selector for MUI Card root added in CarouselCard */
+:global(.ut-card) {
+  position: relative;
+  overflow: hidden; /* ensure the shine is clipped to the card */
+  border-radius: 8px; /* match MUI Card radius if needed */
+  background-clip: padding-box;
+}
+
+/* the shining gradient overlay */
+:global(.ut-card)::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  /* diagonal band: adjust stops and alpha for stronger/weaker shine */
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.08) 40%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.08) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-100%) rotate(10deg);
+  pointer-events: none;
+  mix-blend-mode: screen; /* try overlay or screen depending on card colors */
+  animation: ut-shine 3.2s linear infinite;
+  will-change: transform;
+  opacity: 0.95;
+}
+
+/* optional: slightly slower, subtler shimmer for mobile */
+@media (max-width: 464px) {
+  :global(.ut-card)::before {
+    animation-duration: 4.5s;
+    background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.06) 45%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0.06) 55%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+}
+
+/* shimmer keyframes (global) */
+@keyframes ut-shine {
+  0% {
+    transform: translateX(-100%) rotate(10deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(10deg);
+  }
+}
+
+/* Hover-only variant: animation is paused by default and plays on hover */
+:global(.ut-card--hover)::before {
+  animation-play-state: paused;
+  opacity: 0.95;
+}
+:global(.ut-card--hover):hover::before {
+  animation-play-state: running;
+}
