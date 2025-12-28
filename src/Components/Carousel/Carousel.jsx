@@ -62,7 +62,6 @@ export default function Carousel({ slides = [] }) {
     return () => ro.disconnect();
   }, [slides, imagesToLoad]);
 
-
   // image onLoad handler (count only unique images)
   const handleImgLoad = () => {
     loadedCountRef.current += 1;
@@ -97,7 +96,7 @@ export default function Carousel({ slides = [] }) {
         >
           <div className="marquee__track" ref={trackRef}>
             {doubled.map((players, i) => (
-              <div className="marquee__item" key={`${i}-${players}`}>
+              <div className="marquee__item" key={`${i}-${players.name || i}`}>
                 <CarouselCard
                   src={players.src}
                   alt={`player ${(i % slides.length) + 1}`}
@@ -106,9 +105,10 @@ export default function Carousel({ slides = [] }) {
                   emoji={players.emoji}
                   club={players.club}
                   foot={players.foot}
-                  
                   // attach onLoad only for the first copy of each unique slide
                   onLoad={i < slides.length ? handleImgLoad : undefined}
+                  // optional: set hoverShimmer to true if you want shimmer only on hover
+                  hoverShimmer={false}
                 />
               </div>
             ))}
@@ -166,9 +166,78 @@ export default function Carousel({ slides = [] }) {
             transform: translateX(var(--marquee-translate));
           }
         }
+
+        /* ===== FIFA-style shimmer for cards =====
+           This targets the Card component rendered by CarouselCard.
+           CarouselCard adds the class "ut-card" to the root Card element.
+        */
+
+        .ut-card {
+          position: relative;
+          overflow: hidden; /* ensure the shine is clipped to the card */
+          border-radius: 8px; /* match MUI Card radius if needed */
+          /* optional subtle base highlight so shimmer reads nicely */
+          background-clip: padding-box;
+        }
+
+        /* the shining gradient overlay */
+        .ut-card::before {
+          content: "";
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          /* diagonal band: adjust stops and alpha for stronger/weaker shine */
+          background: linear-gradient(
+            120deg,
+            rgba(255,255,255,0) 0%,
+            rgba(255,255,255,0.08) 40%,
+            rgba(255,255,255,0.6) 50%,
+            rgba(255,255,255,0.08) 60%,
+            rgba(255,255,255,0) 100%
+          );
+          transform: translateX(-100%) rotate(10deg);
+          pointer-events: none;
+          mix-blend-mode: screen; /* try overlay or screen depending on card colors */
+          animation: ut-shine 3.2s linear infinite;
+          will-change: transform;
+          opacity: 0.95;
+        }
+
+        /* optional: slightly slower, subtler shimmer for mobile */
+        @media (max-width: 464px) {
+          .ut-card::before {
+            animation-duration: 4.5s;
+            background: linear-gradient(
+              120deg,
+              rgba(255,255,255,0) 0%,
+              rgba(255,255,255,0.06) 45%,
+              rgba(255,255,255,0.5) 50%,
+              rgba(255,255,255,0.06) 55%,
+              rgba(255,255,255,0) 100%
+            );
+          }
+        }
+
+        @keyframes ut-shine {
+          0% {
+            transform: translateX(-100%) rotate(10deg);
+          }
+          100% {
+            transform: translateX(100%) rotate(10deg);
+          }
+        }
+
+        /* Hover-only variant: animation is paused by default and plays on hover */
+        .ut-card--hover::before {
+          animation-play-state: paused;
+          opacity: 0.95;
+        }
+        .ut-card--hover:hover::before {
+          animation-play-state: running;
+        }
       `}</style>
     </div>
   );
 }
-
-
