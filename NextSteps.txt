@@ -1,37 +1,20 @@
 -immediate steps: 
 -
--add a cool mouse design
+
 -need to make it so clicking on the player cards
-- also navigated to the player details page when you click the "click to find out more"
--need to turn off sign in page
+also navigated to the player details page when you click the "click to find out more"
+-need to turn off sign in page (first see if adding jwt required 
+on each route makes it so you cant postman call them)
+-need to fix refresh bug for home page
+-center the search box on the navbar
 
 
 -for the tables use the emoji flags to show which league theyre in (just do top 5 only for ease)
--make the tile inside statCard as its own component
 -need to sort out authentication on backend as right now seems like routes are exposed as no @jwt_required or whatever on the routes
- 
- -https://www.football-data.org/documentation/quickstart - apis for home page use
- if you go to bottom theres an example to use the api to get top 10 scorers in a league,
- you can make a backend route that calls for all the leagues and does the sorting/counting to give a list of players with the top goals across all leagues)
- then the card should show the player name, goals scored, and the league their in and their team
- -can then use wiki image api to get the players photos each time.
- 
- after home page make the page for when you actually click on a player that shows his stats last games, form etc,
- -then need to come back to home page and make a working search box that takes you to the player pages
 
-
- -finish player card, style colourscheme etc
- -identify which scnearios need navigate or which need link to or navlink copilot can tell you which scenario to use which
-
-- create  footer thats consistent across all pages
--make a mouse thats nice like the see through black circle one that inverts colour
--add an animated shine effect on the player cards on home page
 
 -need to set up authentication on the backend so thereafter all routes have it.
-- need to figure out how to have a default style of default navbar thats reusable across all pages
--need to design the initial home page.
--figure out where apis are fired? there should be another file in sign-in-page for all the apis being fired i think?
--figure out the MUI stuff
+
 -eventually ci/cd stuff for auto deployment
 -bug on refreshing sign in page
 -make a contact page with a proper form in it so you can see how forms work in react"

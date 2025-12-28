@@ -1,0 +1,108 @@
+.toolbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* left group: logo + title */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+.brand img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+/* title visibility handled by classes */
+.titleDesktop {
+  display: none;
+  font-family: monospace;
+  font-weight: 700;
+  letter-spacing: .12em;
+  font-size: 1rem;
+  text-decoration: none;
+  color: #ffffff; /* ensure white title */
+}
+.titleMobile {
+  display: flex;
+  font-family: monospace;
+  font-weight: 700;
+  letter-spacing: .12em;
+  font-size: 0.95rem;
+  text-decoration: none;
+  color: #ffffff; /* ensure white title on mobile */
+}
+
+/* center group: search + tagline */
+.centerGroup {
+  position: static;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+  padding-left: 8px;
+  padding-right: 8px;
+  white-space: nowrap; /* keep children on one line */
+}
+@media (min-width: 900px) {
+  .centerGroup {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+  }
+}
+
+/* search wrapper constrains the TextField width */
+.searchWrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 360px;
+  flex: 0 0 360px; /* fixed basis so tagline sits to the right */
+  min-width: 160px;
+}
+
+/* tagline gradient slide */
+.tagline {
+  display: none;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  background: linear-gradient(90deg, #2ea3ff, #ffffff, #ff3b3b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 100%;
+  animation: bgSlide 3s linear infinite;
+  white-space: nowrap; /* prevent wrapping */
+  flex: 0 0 auto; /* do not shrink */
+  margin-left: 12px;
+}
+@keyframes bgSlide {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 0%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* right group keeps mobile menu and future controls */
+.rightGroup {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* responsive visibility */
+@media (min-width: 600px) {
+  .titleDesktop { display: flex; }
+  .titleMobile { display: none; }
+  .tagline { display: inline-flex; }
+}
