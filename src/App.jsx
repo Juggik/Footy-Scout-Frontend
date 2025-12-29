@@ -11,21 +11,21 @@ import PlayerDetailsPage from "./features/PlayerDetailsPage/PlayerDetailsPage"
 export default function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
+      {/* <AuthProvider> */}
         <Cursor />
         <Routes>
-          <Route path="/" element={<Navigate to="/sign-in" replace />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/sign-in" element={<SignInPage />} />
           <Route element={<AppLayout />}>
-            <Route element={<PrivateRoute />}>
+            {/* <Route element={<PrivateRoute />}> */}
               <Route path="/home" element={<HomePage />} />
               <Route path="/playerDetails/:id" element={<PlayerDetailsPage />} />
               {/* <Route path="/profile" element={<ProfilePage />} /> */}
               {/* other protected routes */}
-            </Route>
+            {/* </Route> */}
           </Route>
         </Routes>
-      </AuthProvider>
+      {/* </AuthProvider> */}
     </BrowserRouter>
   );
 }
