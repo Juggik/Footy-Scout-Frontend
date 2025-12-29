@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { getPlayerStats } from "./PlayerDetailsPageApi";
 import styles from "./PlayerDetailsPage.module.css";
+import LoadingAnimation from "../../Components/LoadingAnimation/LoadingAnimation";
 
 function countryEmoji(country) {
   const map = {
@@ -42,10 +43,8 @@ function PitchMap({ player, pitchPosFromState }) {
     Goalkeeper: { x: 10, y: 50 },
   };
 
-  const pitchPos =
-    pitchPosFromState ||
-    (player?.position && roleMap[player.position]) ||
-    { x: 65, y: 50 };
+  const pitchPos = pitchPosFromState ||
+    (player?.position && roleMap[player.position]) || { x: 65, y: 50 };
 
   const svgX = (pitchPos.x / 100) * 300;
   const svgY = (pitchPos.y / 100) * 180;
@@ -67,7 +66,14 @@ function PitchMap({ player, pitchPosFromState }) {
           </linearGradient>
         </defs>
 
-        <rect x="0" y="0" width="300" height="180" fill="url(#pitchGrad)" rx="8" />
+        <rect
+          x="0"
+          y="0"
+          width="300"
+          height="180"
+          fill="url(#pitchGrad)"
+          rx="8"
+        />
 
         <g stroke="rgba(255,255,255,0.06)" strokeWidth="1.2" fill="none">
           <rect x="10" y="10" width="280" height="160" rx="6" />
@@ -80,9 +86,27 @@ function PitchMap({ player, pitchPosFromState }) {
         <g transform={`translate(${svgX},${svgY})`}>
           <circle r="22" fill="#00d4ff" opacity="0.08" />
           <circle r="12" fill="#00d4ff" />
-          <circle r="12" fill="none" stroke="#00d4ff" strokeOpacity="0.6" strokeWidth="2">
-            <animate attributeName="r" from="12" to="36" dur="1.6s" repeatCount="indefinite" />
-            <animate attributeName="opacity" from="0.9" to="0" dur="1.6s" repeatCount="indefinite" />
+          <circle
+            r="12"
+            fill="none"
+            stroke="#00d4ff"
+            strokeOpacity="0.6"
+            strokeWidth="2"
+          >
+            <animate
+              attributeName="r"
+              from="12"
+              to="36"
+              dur="1.6s"
+              repeatCount="indefinite"
+            />
+            <animate
+              attributeName="opacity"
+              from="0.9"
+              to="0"
+              dur="1.6s"
+              repeatCount="indefinite"
+            />
           </circle>
           <text x="18" y="-14" fill="#dbeafe" fontSize="10" fontWeight="700">
             {player.name.split(" ")[0]}
@@ -119,10 +143,28 @@ export default function PlayerDetailsPage() {
     if (nameFromState || id) fetchPlayer();
   }, [id, nameFromState, player]);
 
-  if (loading) return <div className={styles.pageWrap}>Loading…</div>;
+  if (loading) {
+    return (
+      <div className={styles.pageWrap}>
+        <LoadingAnimation />
+      </div>
+    );
+  }
+
   if (!player) return <div className={styles.pageWrap}>No player found</div>;
 
-  const { name, firstname, lastname, age, birth, nationality, height, weight, photo, raw } = player;
+  const {
+    name,
+    firstname,
+    lastname,
+    age,
+    birth,
+    nationality,
+    height,
+    weight,
+    photo,
+    raw,
+  } = player;
 
   const instagramPeopleSearch = name
     ? `https://www.instagram.com/explore/people/?q=${encodeURIComponent(name)}`
@@ -131,15 +173,22 @@ export default function PlayerDetailsPage() {
   return (
     <div className={styles.pageWrap}>
       <header className={styles.hero}>
-        <div className={styles.heroBg} style={{ backgroundImage: `url(${photo})` }} />
+        <div
+          className={styles.heroBg}
+          style={{ backgroundImage: `url(${photo})` }}
+        />
         <div className={styles.heroContent}>
           <img className={styles.playerPhoto} src={photo} alt={name} />
           <div>
             <h1 className={styles.playerName}>{name}</h1>
             <div className={styles.metaRow}>
               <span className={styles.pill}>{age} yrs</span>
-              <span className={styles.pill}>{countryEmoji(nationality)} {nationality}</span>
-              <span className={styles.leagueBadge}>League #{player.matched_league}</span>
+              <span className={styles.pill}>
+                {countryEmoji(nationality)} {nationality}
+              </span>
+              <span className={styles.leagueBadge}>
+                League #{player.matched_league}
+              </span>
             </div>
             <p className={styles.tagline}>
               Born {birth?.date} in {birth?.place}, {birth?.country}
@@ -151,10 +200,19 @@ export default function PlayerDetailsPage() {
       <main className={styles.mainGrid}>
         <section className={styles.card}>
           <h2>Bio</h2>
-          <p><strong>Full name:</strong> {firstname} {lastname}</p>
-          <p><strong>Nationality:</strong> {nationality}</p>
-          <p><strong>Birth:</strong> {birth?.date} — {birth?.place}, {birth?.country}</p>
-          <p><strong>Player ID:</strong> {player.id}</p>
+          <p>
+            <strong>Full name:</strong> {firstname} {lastname}
+          </p>
+          <p>
+            <strong>Nationality:</strong> {nationality}
+          </p>
+          <p>
+            <strong>Birth:</strong> {birth?.date} — {birth?.place},{" "}
+            {birth?.country}
+          </p>
+          <p>
+            <strong>Player ID:</strong> {player.id}
+          </p>
 
           <div className={styles.actionRow}>
             {instagramPeopleSearch ? (
@@ -171,7 +229,9 @@ export default function PlayerDetailsPage() {
                 Follow
               </button>
             )}
-            <button className={`${styles.btn} ${styles.btnGhost}`}>Share</button>
+            <button className={`${styles.btn} ${styles.btnGhost}`}>
+              Share
+            </button>
           </div>
 
           <PitchMap player={player} pitchPosFromState={pitchPosFromState} />
@@ -196,8 +256,18 @@ export default function PlayerDetailsPage() {
           </div>
 
           <h3>Visual meters</h3>
-          <StatBar label="Height (cm)" value={height} max={220} color="#7DD3FC" />
-          <StatBar label="Weight (kg)" value={weight} max={110} color="#FBCFE8" />
+          <StatBar
+            label="Height (cm)"
+            value={height}
+            max={220}
+            color="#7DD3FC"
+          />
+          <StatBar
+            label="Weight (kg)"
+            value={weight}
+            max={110}
+            color="#FBCFE8"
+          />
 
           <details>
             <summary>Raw data</summary>
@@ -209,8 +279,12 @@ export default function PlayerDetailsPage() {
       </main>
 
       <footer className={styles.footer}>
-        <div>Matched league: <strong>{player.matched_league}</strong></div>
-        <div>Injured: <strong>{String(raw?.injured ?? false)}</strong></div>
+        <div>
+          Matched league: <strong>{player.matched_league}</strong>
+        </div>
+        <div>
+          Injured: <strong>{String(raw?.injured ?? false)}</strong>
+        </div>
       </footer>
     </div>
   );

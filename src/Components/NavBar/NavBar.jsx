@@ -54,6 +54,10 @@ export default function NavBar() {
     }
   };
 
+  const handleReturnHome = () => {
+    navigate(`/home`);
+  }
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -65,8 +69,9 @@ export default function NavBar() {
               variant="h6"
               noWrap
               component="a"
-              href="#app-bar-with-responsive-menu"
+              // href="#app-bar-with-responsive-menu"
               className={styles.titleDesktop}
+              onClick={handleReturnHome}
             >
               Footy Scouter
             </Typography>

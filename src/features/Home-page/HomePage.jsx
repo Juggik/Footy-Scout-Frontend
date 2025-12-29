@@ -19,6 +19,7 @@ import portugal from "../../assets/Nation-flags/Portugal.svg";
 
 import Carousel from "../../Components/Carousel/Carousel";
 import StatCard from "../../Components/StatCard/StatCard";
+import LoadingAnimation from "../../Components/LoadingAnimation/LoadingAnimation";
 
 export default function HomePage() {
   const [stats, setStats] = useState(null);
@@ -124,7 +125,7 @@ export default function HomePage() {
     loadStats();
   }, []);
 
-  if (!stats) return <div>Loading…</div>;
+  if (!stats) return <div><LoadingAnimation /></div>;
 
   return (
     <div>

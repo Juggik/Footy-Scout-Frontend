@@ -1,6 +1,7 @@
 -immediate steps: 
--
 
+
+-replacing ...loading with an actual loading animated component.
 -need to make it so clicking on the player cards
 also navigated to the player details page when you click the "click to find out more"
 -need to turn off sign in page (first see if adding jwt required 
