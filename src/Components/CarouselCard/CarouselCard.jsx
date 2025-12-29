@@ -24,7 +24,7 @@ export default function CarouselCard({
 ) {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate(`/playerDetails/99`, { state: { name: name } });
+    navigate(`/playerDetails/${99}`, { state: { name: name } });
   }
   return (
     <Card
